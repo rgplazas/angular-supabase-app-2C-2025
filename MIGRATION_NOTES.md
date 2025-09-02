@@ -16,6 +16,19 @@ Fecha: 2025-09-02 13:37 (-03)
 - Señales para @Input():
   - `PostCardComponent` (`src/app/components/post-card/post-card.ts`): `post = input.required<Post>()` y template con `post()...`.
   - `TaskItemComponent` (`src/app/components/task-item/task-item.ts`): `task = input.required<Task>()` y template con `task()...`.
+  - Eliminado `CommonModule` en `TaskItemComponent` y uso de `DatePipe` standalone.
+    - Archivo: `src/app/components/task-item/task-item.ts` (imports: `[DatePipe]`).
+    - Plantilla: `task-item.html` mantiene `@if` y `| date`.
+  
+- Formularios: migración a Reactive Forms en Dashboard.
+  - Eliminados `CommonModule` y `FormsModule` del Dashboard.
+  - Añadido `ReactiveFormsModule` y `FormBuilder` con `Validators`.
+  - Archivo TS: `src/app/pages/dashboard/dashboard.ts` ahora define `newTaskForm: FormGroup`.
+  - Archivo HTML: `src/app/pages/dashboard/dashboard.html` usa `[formGroup]` y `formControlName` en lugar de `[(ngModel)]`.
+  - Validaciones: `required`/`minLength` gestionadas en `Validators` y condiciones `newTaskForm.get('control')?.invalid && touched`.
+
+- Inicio: eliminación de `CommonModule`.
+  - Archivo: `src/app/pages/inicio/inicio.ts` ahora importa únicamente `RouterModule` y `PostCardComponent`.
 - Pruebas unitarias actualizadas a standalone y señales:
   - `post-card.spec.ts`: usa `PostCardComponent` y `fixture.componentRef.setInput('post', ...)`.
   - `task-item.spec.ts`: usa `TaskItemComponent` y `setInput('task', ...)`.
@@ -42,7 +55,7 @@ Fecha: 2025-09-02 13:37 (-03)
 - [x] Especs standalone y con `setInput` donde corresponde.
 - [ ] Material M3 actualizado (si aplica) y documentado.
 - [x] `angular.json` y `tsconfig*.json` revisados y comentados.
-- [x] Build producción `ng build -c production` exitoso.
+- [ ] Build producción `ng build -c production` exitoso (pendiente de verificación tras migración de formularios).
 - [ ] Tests `npm test` exitosos (sin watch) y flakiness revisado.
 
 ## Resultados de Validación

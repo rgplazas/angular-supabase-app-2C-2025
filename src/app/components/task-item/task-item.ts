@@ -25,14 +25,14 @@
 // Notas Angular 20: usamos señales para inputs (`input.required<T>()`) y control flow moderno en el HTML.
 // Lectura de señales en TS/HTML: se invoca como función `task()`.
 import { Component, Output, EventEmitter, input } from '@angular/core'; // Component API, outputs y señales de input
-import { CommonModule } from '@angular/common'; // Directivas/pipes base (ngIf, ngFor, date, etc.) que se usan en la plantilla
+import { DatePipe } from '@angular/common'; // Angular 20: importamos solo el pipe necesario como standalone (sin CommonModule)
 import { Task } from '../../services/supabase.service'; // Tipo de dominio Task proveniente del servicio de datos
 
 @Component({
   // selector: nombre del elemento HTML que representa el componente en plantillas del padre
   selector: 'app-task-item',
-  // imports: como componente standalone, declaramos dependencias de plantilla (directivas/pipes)
-  imports: [CommonModule],
+  // imports: standalone; eliminamos CommonModule y dejamos únicamente DatePipe (usado en la vista)
+  imports: [DatePipe],
   // templateUrl: archivo de la vista asociada
   templateUrl: './task-item.html',
   // styleUrl: hoja de estilos scoped al componente

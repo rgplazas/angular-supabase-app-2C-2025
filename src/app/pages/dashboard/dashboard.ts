@@ -3,10 +3,9 @@
 // Notas: se usa control flow de Angular 20 (@if/@for) con track por id y validación mínima.
 // Importa el decorador de componente y el hook OnInit
 import { Component, OnInit } from '@angular/core';
-// Módulo con directivas/pipes básicos usados en la plantilla
-import { CommonModule } from '@angular/common';
-// Módulo para two-way binding y validaciones template-driven
-import { FormsModule } from '@angular/forms';
+// Migración Angular 20: eliminamos CommonModule y FormsModule (template-driven)
+// Usamos Reactive Forms por compatibilidad con signals y mejor tipado/validación
+import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 // Módulo de router para enlaces (routerLink)
 import { RouterModule } from '@angular/router';
 // Servicio de Supabase y el tipo de entidad Task para tipado estricto
@@ -18,8 +17,9 @@ import { TaskItemComponent } from '../../components/task-item/task-item';
 @Component({
   // Selector del componente
   selector: 'app-dashboard',
-  // Dependencias disponibles en la plantilla (módulos y componentes standalone)
-  imports: [CommonModule, FormsModule, RouterModule, TaskItemComponent],
+  // Dependencias disponibles en la plantilla (standalone)
+  // Quitamos CommonModule/FormsModule; añadimos ReactiveFormsModule
+  imports: [ReactiveFormsModule, RouterModule, TaskItemComponent],
   // Ruta al template HTML
   templateUrl: './dashboard.html',
   // Ruta a la hoja de estilos
@@ -33,21 +33,21 @@ export class DashboardComponent implements OnInit {
   // Mensaje de error visible cuando algo falla (config o red)
   error = '';
   
-  // Estado del formulario para crear una nueva tarea
-  newTask = {
-    // Título requerido de la nueva tarea
-    title: '',
-    // Descripción requerida de la nueva tarea
-    description: '',
-    // Estado inicial sin completar
-    completed: false
-  };
+  // Reactive Form para crear una nueva tarea (sustituye a ngModel)
+  newTaskForm: FormGroup;
   
   // Flag para prevenir envíos duplicados mientras se procesa
   isSubmitting = false;
 
-  // Inyección del servicio que encapsula llamadas a Supabase
-  constructor(private supabaseService: SupabaseService) {}
+  // Inyección del servicio y del FormBuilder para construir el FormGroup
+  constructor(private supabaseService: SupabaseService, private fb: FormBuilder) {
+    // Definición del formulario reactivo con validaciones
+    this.newTaskForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required, Validators.minLength(5)]],
+      completed: [false]
+    });
+  }
 
   // Hook de ciclo de vida: cargar tareas al inicializar el componente
   ngOnInit() {
@@ -77,33 +77,28 @@ export class DashboardComponent implements OnInit {
 
   // Maneja el envío del formulario de alta de tareas
   async onSubmit() {
-    // Validación mínima: ambos campos son requeridos
-    if (!this.newTask.title.trim() || !this.newTask.description.trim()) {
-      alert('Por favor, completa todos los campos');
+    // Marcar controles como tocados para mostrar errores si existen
+    this.newTaskForm.markAllAsTouched();
+    if (this.newTaskForm.invalid) {
+      alert('Por favor, corrige los errores del formulario');
       return;
     }
 
     try {
-      // Evitar múltiples envíos mientras se procesa
       this.isSubmitting = true;
-      // Llamada al servicio para persistir la nueva tarea
-      const result = await this.supabaseService.addTask(this.newTask);
-      
+      // Obtener payload del formulario
+      const payload = this.newTaskForm.value as { title: string; description: string; completed: boolean };
+      const result = await this.supabaseService.addTask(payload);
       if (result) {
-        // Insertar al inicio para feedback inmediato
         this.tasks.unshift(result);
-        // Limpiar el formulario a valores por defecto
         this.resetForm();
       } else {
-        // Si no hay resultado, notificar error genérico
         alert('Error al crear la tarea');
       }
     } catch (error) {
-      // Log del error para diagnóstico
       console.error('Error al crear tarea:', error);
       alert('Error al crear la tarea');
     } finally {
-      // Habilitar nuevamente el botón de enviar
       this.isSubmitting = false;
     }
   }
@@ -157,11 +152,7 @@ export class DashboardComponent implements OnInit {
 
   // Restablece el formulario a sus valores por defecto
   private resetForm() {
-    this.newTask = {
-      title: '',
-      description: '',
-      completed: false
-    };
+    this.newTaskForm.reset({ title: '', description: '', completed: false });
   }
 
   // Getter derivado: tareas completadas

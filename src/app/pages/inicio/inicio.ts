@@ -2,14 +2,14 @@
 // Muestra posts desde una API externa (ApiService). La plantilla usa Angular 20 control flow (@if/@for).
 // Notas: top 10 posts para rendimiento; manejo de loading/error en UI.
 import { Component, OnInit } from '@angular/core'; // Component: decorador para componentes standalone; OnInit: interfaz que habilita ngOnInit()
-import { CommonModule } from '@angular/common'; // Directivas/pipes comunes (NgIf, NgFor, DatePipe, etc.) usadas en el template
 import { RouterModule } from '@angular/router'; // Habilita directivas de ruteo (routerLink, routerLinkActive, RouterOutlet)
 import { ApiService, Post } from '../../services/api.service'; // ApiService: llamadas a API externa; Post: tipo para tipado estricto
 import { PostCardComponent } from '../../components/post-card/post-card'; // Componente hijo para renderizar una tarjeta de post
 
 @Component({
   selector: 'app-inicio',
-  imports: [CommonModule, RouterModule, PostCardComponent], // Declaramos módulos/standalone components disponibles en la plantilla
+  // Migración Angular 20: eliminamos CommonModule. La plantilla usa control flow moderno (@if/@for) que no requiere CommonModule
+  imports: [RouterModule, PostCardComponent], // Dependencias de plantilla necesarias (sin CommonModule)
   templateUrl: './inicio.html',
   styleUrl: './inicio.css' // Estilos específicos del componente
 })

@@ -52,25 +52,21 @@ FOR ALL USING (true) WITH CHECK (true);</code></pre>
   <div class="form-section">
     <!-- Título de la sección de formulario -->
     <h2>Agregar Nueva Tarea</h2>
-    <!-- Form con envío ligado al método onSubmit; template-driven forms -->
-    <form (ngSubmit)="onSubmit()" #taskForm="ngForm" class="task-form">
+    <!-- Formulario reactivo: vinculado a newTaskForm (Reactive Forms) -->
+    <form (ngSubmit)="onSubmit()" [formGroup]="newTaskForm" class="task-form">
       <!-- Grupo de campo: título -->
       <div class="form-group">
         <!-- Etiqueta para el campo título -->
         <label for="title">Título:</label>
-        <!-- Input de texto con two-way binding y validaciones -->
+        <!-- Input de texto con control reactivo y validaciones -->
         <input 
           type="text" 
           id="title"
-          name="title"
-          [(ngModel)]="newTask.title"
-          required
-          minlength="3"
-          #title="ngModel"
+          formControlName="title"
           class="form-control"
           placeholder="Ingresa el título de la tarea">
         <!-- @if: muestra error si el control es inválido y fue tocado -->
-        @if (title.invalid && title.touched) {
+        @if (newTaskForm.get('title')?.invalid && newTaskForm.get('title')?.touched) {
           <div class="error-message">
             El título es requerido y debe tener al menos 3 caracteres.
           </div>
@@ -81,19 +77,15 @@ FOR ALL USING (true) WITH CHECK (true);</code></pre>
       <div class="form-group">
         <!-- Etiqueta para el campo descripción -->
         <label for="description">Descripción:</label>
-        <!-- Textarea con two-way binding y validaciones -->
+        <!-- Textarea con control reactivo y validaciones -->
         <textarea 
           id="description"
-          name="description"
-          [(ngModel)]="newTask.description"
-          required
-          minlength="5"
-          #description="ngModel"
+          formControlName="description"
           class="form-control"
           rows="3"
           placeholder="Describe la tarea"></textarea>
         <!-- @if: muestra error si el control es inválido y fue tocado -->
-        @if (description.invalid && description.touched) {
+        @if (newTaskForm.get('description')?.invalid && newTaskForm.get('description')?.touched) {
           <div class="error-message">
             La descripción es requerida y debe tener al menos 5 caracteres.
           </div>
@@ -104,7 +96,7 @@ FOR ALL USING (true) WITH CHECK (true);</code></pre>
       <button 
         type="submit" 
         class="btn btn-primary"
-        [disabled]="taskForm.invalid || isSubmitting">
+        [disabled]="newTaskForm.invalid || isSubmitting">
         <!-- Texto reactivo según estado de envío -->
         {{ isSubmitting ? 'Creando...' : 'Crear Tarea' }}
       </button>
