@@ -156,30 +156,27 @@ src/app/
 
 ```mermaid
 flowchart LR
-  subgraph UI[UI]
-    INICIO[InicioComponent]
-    DASH[DashboardComponent]
-    PC[PostCardComponent]
-    TI[TaskItemComponent]
+  subgraph UI["UI"]
+    INICIO["InicioComponent"]
+    DASH["DashboardComponent"]
+    PC["PostCardComponent"]
+    TI["TaskItemComponent"]
   end
 
-  subgraph SERVICES[Servicios]
-    API[ApiService (HttpClient)]
-    SB[SupabaseService]
+  subgraph SERVICES["Servicios"]
+    API["ApiService - HttpClient"]
+    SB["SupabaseService"]
   end
 
-  subgraph EXTERNAL[Externos]
-    JSON[JSONPlaceholder API]
-    DB[(Supabase DB: tasks)]
+  subgraph EXTERNAL["Externos"]
+    JSON["JSONPlaceholder API"]
+    DB[("Supabase DB: tasks")]
   end
 
   INICIO -->|lista posts| PC
   INICIO --> API --> JSON
   DASH -->|CRUD tareas| TI
   DASH --> SB --> DB
-  classDef accent fill:#e3f2fd,stroke:#64b5f6,color:#0d47a1;
-  class UI accent;
-  class SERVICES accent;
 ```
 
 ## 🖨️ ¿Cómo exportar la guía a PDF?
