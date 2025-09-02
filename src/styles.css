@@ -1,0 +1,43 @@
+/* Estilos globales para la aplicación */
+
+* {
+  box-sizing: border-box; /* Incluye borde y padding en el tamaño total de los elementos */
+}
+
+body {
+  margin: 0; /* Elimina márgenes por defecto del navegador */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente base legible */
+  background-color: #f8f9fa; /* Fondo claro para todo el sitio */
+  color: #333; /* Color de texto base */
+  line-height: 1.6; /* Mejora la legibilidad del texto */
+}
+
+/* Utilidades globales */
+.container {
+  max-width: 1200px; /* Ancho máximo del contenedor responsivo */
+  margin: 0 auto; /* Centra horizontalmente el contenido */
+  padding: 0 20px; /* Espaciado lateral estándar */
+}
+
+.text-center {
+  text-align: center; /* Centra el texto dentro del elemento */
+}
+
+.mt-1 { margin-top: 0.25rem; } /* Margen superior pequeño */
+.mt-2 { margin-top: 0.5rem; } /* Margen superior */
+.mt-3 { margin-top: 1rem; } /* Margen superior mediano */
+.mt-4 { margin-top: 1.5rem; } /* Margen superior grande */
+.mt-5 { margin-top: 3rem; } /* Margen superior extra grande */
+
+.mb-1 { margin-bottom: 0.25rem; } /* Margen inferior pequeño */
+.mb-2 { margin-bottom: 0.5rem; } /* Margen inferior */
+.mb-3 { margin-bottom: 1rem; } /* Margen inferior mediano */
+.mb-4 { margin-bottom: 1.5rem; } /* Margen inferior grande */
+.mb-5 { margin-bottom: 3rem; } /* Margen inferior extra grande */
+
+/* Responsive */
+@media (max-width: 576px) { /* Ajustes para pantallas pequeñas */
+  .container {
+    padding: 0 15px; /* Reduce padding lateral en móviles */
+  }
+}

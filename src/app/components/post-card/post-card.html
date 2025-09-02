@@ -1,0 +1,19 @@
+<!-- Componente presentacional: muestra un Post.
+     Nota: `post` es una señal; para leer su valor se invoca como función: post().campo -->
+<div class="post-card"> <!-- Contenedor principal con estilos de tarjeta -->
+  <!-- Header: título del post + badge con el ID -->
+  <div class="post-header"> <!-- Layout horizontal con espacio entre elementos -->
+    <h3>{{ post().title }}</h3> <!-- Acceso a la señal para el título: post().title -->
+    <span class="post-id">ID: {{ post().id }}</span> <!-- Badge informativo con el identificador -->
+  </div>
+
+  <!-- Body: contenido principal del post -->
+  <div class="post-body"> <!-- Sección de texto; estilos mejoran legibilidad -->
+    <p>{{ post().body }}</p> <!-- Cuerpo del post desde la señal: post().body -->
+  </div>
+
+  <!-- Footer: metadatos mínimos (usuario autor) -->
+  <div class="post-footer"> <!-- Alineación a la derecha para información secundaria -->
+    <small>Usuario ID: {{ post().userId }}</small> <!-- Campo userId proveniente del modelo Post -->
+  </div>
+</div>

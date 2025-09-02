@@ -1,0 +1,247 @@
+/* Archivo: inicio.css — Estilos de la página InicioComponent.
+   Objetivo: layout de portada (hero, features, posts), responsive y botones de navegación.
+   Convenciones: grid responsivo, sombras sutiles, paleta neutra; compatible con SSR/hidratación. */
+/* Contenedor raíz de la página de inicio */
+.inicio-container {
+  /* Ancho máximo del contenido para lectura cómoda en pantallas grandes */
+  max-width: 1200px;
+  /* Centrado horizontal mediante márgenes automáticos */
+  margin: 0 auto;
+  /* Relleno interno para separar contenido de los bordes */
+  padding: 20px;
+}
+
+/* Sección hero: cabecera visual con degradado y copy principal */
+.hero-section {
+  /* Centrar texto y elementos del hero */
+  text-align: center;
+  /* Espaciado interno amplio para dar aire al hero */
+  padding: 60px 20px;
+  /* Degradado de fondo diagonal (del azul al violeta) */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* Bordes redondeados para una tarjeta moderna */
+  border-radius: 20px;
+  /* Texto en blanco para contraste sobre el degradado */
+  color: white;
+  /* Separación del bloque siguiente */
+  margin-bottom: 40px;
+}
+
+/* Título principal dentro del hero */
+.hero-section h1 {
+  /* Tamaño de fuente grande para jerarquía visual */
+  font-size: 48px;
+  /* Espaciado inferior para separar del párrafo */
+  margin-bottom: 20px;
+  /* Peso fuerte para destacar el título */
+  font-weight: 700;
+}
+
+/* Párrafo descriptivo del hero */
+.hero-section p {
+  /* Tamaño de fuente intermedio para copy de apoyo */
+  font-size: 20px;
+  /* Separación inferior respecto a botones u otros elementos */
+  margin-bottom: 30px;
+  /* Ligera transparencia para suavizar el texto secundario */
+  opacity: 0.9;
+}
+
+/* Contenedor de botones dentro del hero */
+.nav-buttons {
+  /* Separación superior respecto al párrafo */
+  margin-top: 30px;
+}
+
+/* Clase base de botón reutilizable */
+.btn {
+  /* Mostrar como inline-block para respetar padding y alineación */
+  display: inline-block;
+  /* Área clickeable amplia y cómoda */
+  padding: 16px 32px;
+  /* Quitar subrayado en anchors usados como botones */
+  text-decoration: none;
+  /* Bordes redondeados moderados */
+  border-radius: 8px;
+  /* Semibold para legibilidad y jerarquía */
+  font-weight: 600;
+  /* Tamaño de fuente base del botón */
+  font-size: 16px;
+  /* Transición suave para hover/focus */
+  transition: all 0.3s ease;
+  /* Sin borde por defecto */
+  border: none;
+  /* Cursor de mano indicando interactividad */
+  cursor: pointer;
+}
+
+/* Botón primario con color principal de la marca */
+.btn-primary {
+  /* Fondo azul principal */
+  background-color: #007bff;
+  /* Texto en blanco para contraste */
+  color: white;
+}
+
+/* Estado hover del botón primario: feedback visual sutil */
+.btn-primary:hover {
+  /* Oscurecer el fondo para indicar interacción */
+  background-color: #0056b3;
+  /* Leve elevación para sensación de clic */
+  transform: translateY(-2px);
+  /* Sombra para profundidad */
+  box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+}
+
+/* Sección de resumen de características */
+.features-section {
+  /* Separación inferior respecto a la siguiente sección */
+  margin-bottom: 50px;
+}
+
+/* Título de la sección de características */
+.features-section h2 {
+  /* Centrar el título */
+  text-align: center;
+  /* Espacio inferior para separar del grid */
+  margin-bottom: 40px;
+  /* Tamaño de fuente destacado para h2 */
+  font-size: 36px;
+  /* Color neutro oscuro para buena legibilidad */
+  color: #333;
+}
+
+/* Grid responsivo que aloja las tarjetas de features */
+.features-grid {
+  /* Layout de grilla para tarjetas */
+  display: grid;
+  /* Columnas que se adaptan al ancho disponible */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Separación entre tarjetas */
+  gap: 30px;
+}
+
+/* Tarjeta individual de característica */
+.feature-card {
+  /* Fondo blanco tipo tarjeta */
+  background: white;
+  /* Relleno interno generoso */
+  padding: 30px;
+  /* Bordes redondeados para estilo amable */
+  border-radius: 16px;
+  /* Sombra suave para separación del fondo */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  /* Contenido centrado */
+  text-align: center;
+  /* Transición para animaciones de hover */
+  transition: transform 0.3s ease;
+}
+
+/* Efecto hover de la tarjeta: levitar sutilmente */
+.feature-card:hover {
+  /* Desplazamiento vertical negativo para efecto de elevación */
+  transform: translateY(-5px);
+}
+
+/* Título de la tarjeta de característica */
+.feature-card h3 {
+  /* Tamaño de fuente destacado para h3 */
+  font-size: 24px;
+  /* Separación con el párrafo descriptivo */
+  margin-bottom: 15px;
+  /* Color neutro oscuro */
+  color: #333;
+}
+
+/* Descripción de la tarjeta de característica */
+.feature-card p {
+  /* Color gris para texto secundario */
+  color: #666;
+  /* Altura de línea cómoda para lectura */
+  line-height: 1.6;
+}
+
+/* Sección que contiene los datos provenientes de la API */
+.api-section {
+  /* Separación superior respecto a features */
+  margin-top: 50px;
+}
+
+/* Título de la sección de posts (API externa) */
+.api-section h2 {
+  /* Centrar el título */
+  text-align: center;
+  /* Separación del contenido (loading/lista) */
+  margin-bottom: 30px;
+  /* Tamaño de fuente ligeramente menor que h2 de features */
+  font-size: 32px;
+  /* Color neutro oscuro */
+  color: #333;
+}
+
+/* Mensaje de estado de carga */
+.loading {
+  /* Centrar mensaje */
+  text-align: center;
+  /* Espaciado para dar protagonismo al estado */
+  padding: 40px;
+  /* Tamaño de fuente legible */
+  font-size: 18px;
+  /* Color gris para indicar neutralidad */
+  color: #666;
+}
+
+/* Mensaje de error visible en la UI */
+.error {
+  /* Centrar mensaje */
+  text-align: center;
+  /* Relleno para legibilidad */
+  padding: 40px;
+  /* Tamaño de fuente legible */
+  font-size: 18px;
+  /* Rojo Bootstrap-ish para errores */
+  color: #dc3545;
+  /* Fondo rosado suave que indica error */
+  background-color: #f8d7da;
+  /* Bordes redondeados para consistencia visual */
+  border-radius: 8px;
+  /* Borde sutil para definir el bloque */
+  border: 1px solid #f5c6cb;
+}
+
+/* Contenedor de tarjetas de posts provenientes de la API */
+.posts-container {
+  /* Usar grilla para acomodar post-cards */
+  display: grid;
+  /* Columnas responsivas con mínimo 400px por tarjeta */
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  /* Separación entre tarjetas */
+  gap: 20px;
+}
+
+/* Punto de quiebre para tablets y móviles */
+@media (max-width: 768px) {
+  /* Reducir el tamaño del título en pantallas pequeñas */
+  .hero-section h1 {
+    /* Tamaño de fuente adaptado a móviles */
+    font-size: 32px;
+  }
+  
+  /* Ajuste del párrafo del hero para móviles */
+  .hero-section p {
+    /* Tamaño de fuente más pequeño para caber en una línea */
+    font-size: 16px;
+  }
+  
+  /* El grid de features pasa a una sola columna */
+  .features-grid {
+    /* Una tarjeta por fila en pantallas estrechas */
+    grid-template-columns: 1fr;
+  }
+  
+  /* El contenedor de posts también pasa a una sola columna */
+  .posts-container {
+    /* Una tarjeta por fila para mejor legibilidad */
+    grid-template-columns: 1fr;
+  }
+}

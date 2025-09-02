@@ -1,0 +1,29 @@
+<!-- Contenedor raíz del layout de la aplicación -->
+<div class="app-container">
+  <!-- Barra de navegación principal de la aplicación -->
+  <nav class="navbar">
+    <!-- Contenido centrado y distribuido entre título y enlaces -->
+    <div class="nav-content">
+      <!-- Título visible del sitio (no confundir con title interno de App) -->
+      <h1 class="nav-title">Angular + Supabase App</h1> <!-- Título visible del sitio -->
+      <!-- Bloque de enlaces de navegación -->
+      <div class="nav-links">
+        <!-- Enlace a la ruta raíz; routerLinkActive aplica clase 'active' cuando coincide -->
+        <a routerLink="/" routerLinkActive="active" class="nav-link">Inicio</a>
+        <!-- Enlace al Dashboard (CRUD con Supabase) -->
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Área principal donde se inyectan las páginas según la ruta -->
+  <main class="main-content">
+    <!-- Punto de montaje del enrutador: aquí se renderizará el componente de la ruta activa -->
+    <router-outlet></router-outlet>
+  </main>
+  
+  <!-- Pie de página con información del proyecto -->
+  <footer class="footer">
+    <p>&copy; 2025 Ejemplo Angular + Supabase + API. Proyecto educativo.</p> <!-- Pie de página -->
+  </footer>
+</div>

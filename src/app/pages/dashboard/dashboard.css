@@ -1,0 +1,419 @@
+/* Archivo: dashboard.css — Estilos de la página DashboardComponent.
+   Objetivo: formularios CRUD de tareas, estadísticas, listados y estados (loading/error).
+   Convenciones: tarjetas con sombras, grid responsivo, botones con estados hover/disabled. */
+/* Contenedor principal del dashboard */
+.dashboard-container {
+  /* Ancho máximo para buena legibilidad en desktop */
+  max-width: 1200px;
+  /* Centrar horizontalmente */
+  margin: 0 auto;
+  /* Separación interna del contenido */
+  padding: 20px;
+}
+
+/* Cabecera del dashboard con degradado */
+.dashboard-header {
+  /* Centrar títulos y botones */
+  text-align: center;
+  /* Separación respecto al resto del contenido */
+  margin-bottom: 40px;
+  /* Relleno para dar presencia visual */
+  padding: 40px 20px;
+  /* Degradado verde para diferenciar de Inicio */
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  /* Bordes redondeados de la tarjeta */
+  border-radius: 16px;
+  /* Texto blanco por contraste */
+  color: white;
+}
+
+/* Título principal de la cabecera */
+.dashboard-header h1 {
+  /* Tamaño grande para jerarquía */
+  font-size: 36px;
+  /* Separación respecto al texto secundario */
+  margin-bottom: 10px;
+  /* Peso fuerte para destacar */
+  font-weight: 700;
+}
+
+/* Texto descriptivo bajo el título en la cabecera */
+.dashboard-header p {
+  /* Tamaño intermedio */
+  font-size: 18px;
+  /* Separación con botones/enlaces */
+  margin-bottom: 20px;
+  /* Ligera transparencia para suavizar */
+  opacity: 0.9;
+}
+
+/* Aviso de configuración de Supabase */
+.config-notice {
+  /* Fondo amarillo pálido para advertencia */
+  background-color: #fff3cd;
+  /* Borde acorde al color de aviso */
+  border: 1px solid #ffeaa7;
+  /* Esquinas suavizadas */
+  border-radius: 8px;
+  /* Relleno interno para legibilidad */
+  padding: 20px;
+  /* Separación inferior respecto a formulario */
+  margin-bottom: 30px;
+}
+
+/* Título del aviso de configuración */
+.config-notice h3 {
+  /* Color marrón típico de alert-warning */
+  color: #856404;
+  /* Separación respecto al párrafo/lista */
+  margin-bottom: 15px;
+}
+
+/* Texto y lista dentro del aviso */
+.config-notice p, .config-notice li {
+  /* Mismo color del título para coherencia visual */
+  color: #856404;
+  /* Altura de línea cómoda para lectura */
+  line-height: 1.6;
+}
+
+/* Bloque de código SQL dentro del aviso */
+.config-notice pre {
+  /* Fondo gris claro tipo code-block */
+  background-color: #f8f9fa;
+  /* Borde sutil para delimitar */
+  border: 1px solid #dee2e6;
+  /* Esquinas ligeramente redondeadas */
+  border-radius: 4px;
+  /* Relleno interno para legibilidad */
+  padding: 15px;
+  /* Scroll horizontal si el código se desborda */
+  overflow-x: auto;
+  /* Tamaño de fuente menor para caber más líneas */
+  font-size: 14px;
+  /* Separación superior respecto al texto anterior */
+  margin-top: 10px;
+}
+
+/* Elementos inline code */
+.config-notice code {
+  /* Fondo gris claro consistente con el bloque */
+  background-color: #f8f9fa;
+  /* Pequeño relleno para resaltar */
+  padding: 2px 4px;
+  /* Esquinas suaves */
+  border-radius: 3px;
+  /* Tamaño de fuente acorde */
+  font-size: 14px;
+}
+
+/* Sección del formulario de alta de tareas */
+.form-section {
+  /* Tarjeta con fondo blanco */
+  background: white;
+  /* Relleno generoso para inputs */
+  padding: 30px;
+  /* Bordes redondeados medios */
+  border-radius: 12px;
+  /* Sombra suave para separar del fondo */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  /* Separación respecto a secciones posteriores */
+  margin-bottom: 30px;
+}
+
+/* Título del formulario */
+.form-section h2 {
+  /* Separación respecto al formulario */
+  margin-bottom: 25px;
+  /* Color neutro oscuro */
+  color: #333;
+  /* Tamaño de fuente destacado */
+  font-size: 28px;
+}
+
+/* Contenedor del formulario: layout vertical */
+.task-form {
+  /* Usar flex para organizar los grupos */
+  display: flex;
+  /* Colocar elementos en columna */
+  flex-direction: column;
+  /* Espacio entre grupos de campos */
+  gap: 20px;
+}
+
+/* Grupo de controles del formulario */
+.form-group {
+  /* Layout vertical etiqueta + control */
+  display: flex;
+  /* Apilar elementos uno debajo de otro */
+  flex-direction: column;
+}
+
+/* Etiquetas de los campos */
+.form-group label {
+  /* Separación con el input */
+  margin-bottom: 8px;
+  /* Semibold para claridad */
+  font-weight: 600;
+  /* Color neutro oscuro */
+  color: #333;
+  /* Tamaño de fuente legible */
+  font-size: 16px;
+}
+
+/* Campos de entrada del formulario */
+.form-control {
+  /* Relleno interno cómodo */
+  padding: 12px 16px;
+  /* Borde definido para estados de validación */
+  border: 2px solid #e0e0e0;
+  /* Esquinas redondeadas */
+  border-radius: 8px;
+  /* Tamaño de fuente legible */
+  font-size: 16px;
+  /* Transición en color de borde para focus/validación */
+  transition: border-color 0.3s ease;
+}
+
+/* Estado de foco en inputs */
+.form-control:focus {
+  /* Eliminar contorno del navegador */
+  outline: none;
+  /* Borde azul indicando foco */
+  border-color: #007bff;
+  /* Sombra externa sutil para accesibilidad visual */
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+/* Estado inválido cuando el usuario ya interactuó */
+.form-control.ng-invalid.ng-touched {
+  /* Rojo de error para feedback inmediato */
+  border-color: #dc3545;
+}
+
+/* Mensaje de error bajo el campo */
+.error-message {
+  /* Texto rojo de error */
+  color: #dc3545;
+  /* Tamaño de fuente menor */
+  font-size: 14px;
+  /* Separación con el input */
+  margin-top: 5px;
+}
+
+/* Clase base de botón */
+.btn {
+  /* Área clickeable cómoda */
+  padding: 12px 24px;
+  /* Sin borde por defecto */
+  border: none;
+  /* Bordes redondeados coherentes con inputs */
+  border-radius: 8px;
+  /* Tamaño de fuente base */
+  font-size: 16px;
+  /* Peso semibold para jerarquía */
+  font-weight: 600;
+  /* Cursor de mano */
+  cursor: pointer;
+  /* Transición para hover/focus */
+  transition: all 0.3s ease;
+  /* Quitar subrayado si es <a> */
+  text-decoration: none;
+  /* Alinear como inline-block */
+  display: inline-block;
+  /* Centrar texto dentro del botón */
+  text-align: center;
+}
+
+/* Botón primario (acción principal) */
+.btn-primary {
+  /* Fondo azul principal */
+  background-color: #007bff;
+  /* Texto blanco para contraste */
+  color: white;
+}
+
+/* Hover del botón primario (si no está deshabilitado) */
+.btn-primary:hover:not(:disabled) {
+  /* Fondo más oscuro al pasar el mouse */
+  background-color: #0056b3;
+  /* Leve elevación */
+  transform: translateY(-2px);
+}
+
+/* Estado deshabilitado del botón primario */
+.btn-primary:disabled {
+  /* Gris para indicar inactividad */
+  background-color: #6c757d;
+  /* Cursor bloqueado */
+  cursor: not-allowed;
+}
+
+/* Botón secundario (acciones de navegación) */
+.btn-secondary {
+  /* Fondo gris medio */
+  background-color: #6c757d;
+  /* Texto blanco */
+  color: white;
+}
+
+/* Hover del botón secundario */
+.btn-secondary:hover {
+  /* Oscurecer un poco en hover */
+  background-color: #545b62;
+  /* Leve elevación */
+  transform: translateY(-2px);
+}
+
+/* Mensaje de carga general */
+.loading {
+  /* Centrar el texto */
+  text-align: center;
+  /* Espaciado amplio */
+  padding: 40px;
+  /* Tamaño de fuente legible */
+  font-size: 18px;
+  /* Gris neutro */
+  color: #666;
+}
+
+/* Mensaje de error general */
+.error {
+  /* Fondo de error suave */
+  background-color: #f8d7da;
+  /* Texto rojo oscuro */
+  color: #721c24;
+  /* Relleno interno */
+  padding: 20px;
+  /* Bordes redondeados */
+  border-radius: 8px;
+  /* Borde sutil de error */
+  border: 1px solid #f5c6cb;
+  /* Separación inferior */
+  margin-bottom: 20px;
+  /* Centrar contenido */
+  text-align: center;
+}
+
+/* Sección que agrupa estadísticas y listado de tareas */
+.tasks-section {
+  /* Separación superior respecto al formulario */
+  margin-top: 30px;
+}
+
+/* Grid de tarjetas de estadísticas */
+.tasks-stats {
+  /* Activar layout de grilla */
+  display: grid;
+  /* Columnas responsivas con mínimo 200px */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* Separación entre tarjetas */
+  gap: 20px;
+  /* Separación respecto al listado */
+  margin-bottom: 30px;
+}
+
+/* Tarjeta de estadística */
+.stat-card {
+  /* Fondo blanco tipo tarjeta */
+  background: white;
+  /* Relleno interno */
+  padding: 25px;
+  /* Bordes redondeados */
+  border-radius: 12px;
+  /* Sombra para separar del fondo */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  /* Centrar contenido */
+  text-align: center;
+}
+
+/* Valor principal de la estadística */
+.stat-card h3 {
+  /* Tamaño grande para cifras */
+  font-size: 36px;
+  /* Separación del subtítulo */
+  margin-bottom: 10px;
+  /* Color azul en sintonía con botones primarios */
+  color: #007bff;
+  /* Peso fuerte */
+  font-weight: 700;
+}
+
+/* Subtítulo de la estadística */
+.stat-card p {
+  /* Gris suave */
+  color: #666;
+  /* Tamaño base */
+  font-size: 16px;
+  /* Quitar margen para alineación compacta */
+  margin: 0;
+}
+
+/* Tarjeta vacía cuando no hay tareas */
+.no-tasks {
+  /* Fondo blanco */
+  background: white;
+  /* Relleno amplio para dar protagonismo */
+  padding: 60px 30px;
+  /* Bordes redondeados */
+  border-radius: 12px;
+  /* Centrar texto */
+  text-align: center;
+  /* Sombra suave */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* Título de la tarjeta de vacío */
+.no-tasks h3 {
+  /* Gris medio */
+  color: #666;
+  /* Separación con el párrafo */
+  margin-bottom: 15px;
+}
+
+/* Descripción de la tarjeta de vacío */
+.no-tasks p {
+  /* Gris más claro */
+  color: #999;
+}
+
+/* Título de la sección de listado de tareas */
+.tasks-list h2 {
+  /* Separación respecto al contenedor de tarjetas */
+  margin-bottom: 20px;
+  /* Color neutro oscuro */
+  color: #333;
+  /* Tamaño de fuente destacado */
+  font-size: 28px;
+}
+
+/* Contenedor de items de tarea */
+.tasks-container {
+  /* Usar flex para lista vertical */
+  display: flex;
+  /* Apilar tarjetas una debajo de otra */
+  flex-direction: column;
+  /* Separación entre items */
+  gap: 16px;
+}
+
+/* Punto de quiebre para tablets/móviles */
+@media (max-width: 768px) {
+  /* Reducir tamaño del título principal */
+  .dashboard-header h1 {
+    /* Tamaño de fuente adaptado */
+    font-size: 28px;
+  }
+  
+  /* Estadísticas en una columna en pantallas estrechas */
+  .tasks-stats {
+    /* Una tarjeta por fila */
+    grid-template-columns: 1fr;
+  }
+  
+  /* Formularios con menos padding en móvil */
+  .form-section {
+    /* Relleno reducido para caber mejor */
+    padding: 20px;
+  }
+}

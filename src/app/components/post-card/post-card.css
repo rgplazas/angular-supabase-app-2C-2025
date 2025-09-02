@@ -1,0 +1,72 @@
+/* Archivo: post-card.css — Estilos del componente PostCardComponent.
+   Objetivo: tarjeta limpia, legible y con microinteracciones sutiles.
+   Convenciones: BEM simple, colores neutrales, pensado para SSR/hidratación. */
+.post-card { /* Contenedor principal de la tarjeta */
+  background: white; /* Fondo neutro para priorizar el contenido */
+  border: 1px solid #e0e0e0; /* Borde suave para separar del fondo */
+  border-radius: 12px; /* Esquinas redondeadas modernas */
+  padding: 20px; /* Respiración interna adecuada */
+  margin-bottom: 16px; /* Separación vertical entre tarjetas */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Sombra discreta para elevación */
+  transition: all 0.3s ease; /* Transición para hover suave */
+}
+
+.post-card:hover { /* Microinteracción al pasar el cursor */
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15); /* Aumenta la elevación percibida */
+  transform: translateY(-2px); /* Sutil desplazamiento para feedback visual */
+}
+
+.post-header { /* Sección superior: título e identificador */
+  display: flex; /* Layout horizontal */
+  justify-content: space-between; /* Distribuye título e ID a extremos */
+  align-items: flex-start; /* Alinea al inicio para títulos de varias líneas */
+  margin-bottom: 16px; /* Separación del cuerpo */
+  border-bottom: 1px solid #f0f0f0; /* Línea divisoria ligera */
+  padding-bottom: 12px; /* Respiración inferior antes del borde */
+}
+
+.post-header h3 { /* Estilo del título del post */
+  margin: 0; /* Elimina espacio externo por consistencia de layout */
+  color: #333; /* Alto contraste con buen legibility */
+  font-size: 20px; /* Jerarquía visual adecuada */
+  font-weight: 600; /* Peso medio para destacar sin exagerar */
+  line-height: 1.4; /* Mejora la lectura en dos o más líneas */
+  flex: 1; /* Ocupa el espacio restante frente al badge */
+  text-transform: capitalize; /* Capitaliza títulos de ejemplo de API */
+}
+
+.post-id { /* Badge con el identificador del post */
+  background-color: #007bff; /* Color principal (azul) para resaltar */
+  color: white; /* Contraste alto sobre el fondo del badge */
+  padding: 4px 8px; /* Tamaño compacto legible */
+  border-radius: 4px; /* Píldora cuadrada suavizada */
+  font-size: 12px; /* Tamaño reducido por jerarquía */
+  font-weight: bold; /* Refuerza la señal visual */
+  margin-left: 12px; /* Separa del título */
+}
+
+.post-body { /* Cuerpo del contenido */
+  margin-bottom: 16px; /* Espacio hacia el footer */
+}
+
+.post-body p { /* Párrafo principal del post */
+  margin: 0; /* Evita dobles márgenes con el contenedor */
+  color: #555; /* Texto secundario para lectura cómoda */
+  line-height: 1.6; /* Altura de línea amplia para bloques de texto */
+  font-size: 16px; /* Tamaño estándar legible */
+}
+
+.post-footer { /* Sección inferior para metadatos */
+  display: flex; /* Facilita alineación del contenido */
+  justify-content: flex-end; /* Alinea metadatos a la derecha */
+  padding-top: 12px; /* Separación del cuerpo vía padding */
+  border-top: 1px solid #f0f0f0; /* Línea divisoria superior */
+}
+
+.post-footer small { /* Etiqueta de metadato (userId) */
+  color: #888; /* Color atenuado por jerarquía */
+  font-size: 14px; /* Ligera reducción de tamaño */
+  background-color: #f8f9fa; /* Fondo suave de contraste mínimo */
+  padding: 4px 8px; /* Área clicable y legible */
+  border-radius: 4px; /* Bordes suaves coherentes con la tarjeta */
+}

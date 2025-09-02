@@ -1,0 +1,175 @@
+<!-- Archivo: dashboard.html — CRUD de tareas con Supabase.
+     Descripción: formulario de alta, estados de carga/error, estadísticas y listado.
+     Nota: usa Angular 20 control flow (@if/@for) con track por id para rendimiento. -->
+<!-- Contenedor principal del dashboard -->
+<div class="dashboard-container">
+  <!-- Cabecera con título, descripción y navegación -->
+  <div class="dashboard-header">
+    <!-- Título principal de la vista -->
+    <h1>Dashboard - Gestión de Tareas</h1>
+    <!-- Descripción breve del propósito de la pantalla -->
+    <p>ABM completo con Supabase</p>
+    <!-- Enlace de navegación a la página de inicio usando Router -->
+    <a routerLink="/inicio" class="btn btn-secondary">
+      <!-- Texto del botón/enlace -->
+      Volver al Inicio
+    </a>
+  </div>
+
+  <!-- Bloque informativo: pasos para configurar Supabase -->
+  <div class="config-notice">
+    <!-- Título del aviso -->
+    <h3>⚠️ Configuración requerida</h3>
+    <!-- Indicación del archivo a editar para credenciales -->
+    <p>Para usar Supabase, actualiza las credenciales en <code>src/app/services/supabase.service.ts</code></p>
+    <!-- Lista de pasos para preparar la base de datos en Supabase -->
+    <ol>
+      <!-- Paso 1: crear cuenta -->
+      <li>Crea una cuenta en <a href="https://supabase.com" target="_blank">Supabase</a></li>
+      <!-- Paso 2: crear proyecto -->
+      <li>Crea un nuevo proyecto</li>
+      <!-- Paso 3: ejecutar SQL -->
+      <li>Ejecuta este SQL en el SQL Editor:</li>
+    </ol>
+    <!-- Bloque de SQL con creación de tabla, RLS y políticas -->
+    <pre><code>CREATE TABLE tasks (
+  id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL,
+  completed BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Habilitar RLS (Row Level Security)
+ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
+
+-- Crear política para permitir todas las operaciones
+CREATE POLICY "Enable all operations for tasks" ON tasks
+FOR ALL USING (true) WITH CHECK (true);</code></pre>
+  </div>
+
+  <!-- Sección de formulario para crear nuevas tareas -->
+  <div class="form-section">
+    <!-- Título de la sección de formulario -->
+    <h2>Agregar Nueva Tarea</h2>
+    <!-- Form con envío ligado al método onSubmit; template-driven forms -->
+    <form (ngSubmit)="onSubmit()" #taskForm="ngForm" class="task-form">
+      <!-- Grupo de campo: título -->
+      <div class="form-group">
+        <!-- Etiqueta para el campo título -->
+        <label for="title">Título:</label>
+        <!-- Input de texto con two-way binding y validaciones -->
+        <input 
+          type="text" 
+          id="title"
+          name="title"
+          [(ngModel)]="newTask.title"
+          required
+          minlength="3"
+          #title="ngModel"
+          class="form-control"
+          placeholder="Ingresa el título de la tarea">
+        <!-- @if: muestra error si el control es inválido y fue tocado -->
+        @if (title.invalid && title.touched) {
+          <div class="error-message">
+            El título es requerido y debe tener al menos 3 caracteres.
+          </div>
+        }
+      </div>
+
+      <!-- Grupo de campo: descripción -->
+      <div class="form-group">
+        <!-- Etiqueta para el campo descripción -->
+        <label for="description">Descripción:</label>
+        <!-- Textarea con two-way binding y validaciones -->
+        <textarea 
+          id="description"
+          name="description"
+          [(ngModel)]="newTask.description"
+          required
+          minlength="5"
+          #description="ngModel"
+          class="form-control"
+          rows="3"
+          placeholder="Describe la tarea"></textarea>
+        <!-- @if: muestra error si el control es inválido y fue tocado -->
+        @if (description.invalid && description.touched) {
+          <div class="error-message">
+            La descripción es requerida y debe tener al menos 5 caracteres.
+          </div>
+        }
+      </div>
+
+      <!-- Botón de envío con estado deshabilitado según validez/isSubmitting -->
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="taskForm.invalid || isSubmitting">
+        <!-- Texto reactivo según estado de envío -->
+        {{ isSubmitting ? 'Creando...' : 'Crear Tarea' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Estado de carga: muestra un mensaje mientras se piden los datos -->
+  @if (loading) {
+    <div class="loading">Cargando tareas...</div>
+  }
+
+  <!-- Estado de error: muestra mensaje amigable cuando existe -->
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  <!-- Bloque principal de listado y estadísticas (cuando no está cargando) -->
+  @if (!loading) {
+    <div class="tasks-section">
+    <!-- Tarjetas de métricas rápidas -->
+    <div class="tasks-stats">
+      <!-- Total de tareas -->
+      <div class="stat-card">
+        <h3>{{ tasks.length }}</h3>
+        <p>Total de tareas</p>
+      </div>
+      <!-- Tareas pendientes -->
+      <div class="stat-card">
+        <h3>{{ pendingTasks.length }}</h3>
+        <p>Pendientes</p>
+      </div>
+      <!-- Tareas completadas -->
+      <div class="stat-card">
+        <h3>{{ completedTasks.length }}</h3>
+        <p>Completadas</p>
+      </div>
+    </div>
+
+    <!-- Estado vacío: no hay tareas -->
+    @if (tasks.length === 0 && !error) {
+      <div class="no-tasks">
+        <h3>No hay tareas aún</h3>
+        <p>Agrega tu primera tarea usando el formulario anterior.</p>
+      </div>
+    }
+
+    <!-- Listado de tareas cuando hay elementos -->
+    @if (tasks.length > 0) {
+      <div class="tasks-list">
+        <!-- Título del listado -->
+        <h2>Mis Tareas</h2>
+        <!-- Contenedor de items de tarea -->
+        <div class="tasks-container">
+          <!-- @for: iteración de tareas con rastreo por id para eficiencia -->
+          @for (task of tasks; track task.id) {
+            <!-- Componente hijo que muestra una tarea y emite eventos -->
+            <app-task-item
+              [task]="task"
+              (deleteTask)="onDeleteTask($event)"
+              (toggleComplete)="onToggleComplete($event)">
+            </app-task-item>
+          }
+        </div>
+      </div>
+    }
+    </div>
+  }
+</div>

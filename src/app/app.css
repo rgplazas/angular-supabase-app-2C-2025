@@ -1,0 +1,125 @@
+/* Reset y estilos globales */
+* {
+  margin: 0; /* Elimina márgenes por defecto */
+  padding: 0; /* Elimina paddings por defecto */
+  box-sizing: border-box; /* Incluye borde y padding en el cálculo del ancho/alto */
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Tipografía legible y estándar */
+  line-height: 1.6; /* Altura de línea para mejorar lectura */
+  color: #333; /* Color de texto base */
+  background-color: #f5f5f5; /* Fondo gris claro para contraste suave */
+}
+
+.app-container {
+  min-height: 100vh; /* Abarca toda la altura de la ventana */
+  display: flex; /* Permite layout flexible vertical */
+  flex-direction: column; /* Ordena header, main y footer en columna */
+}
+
+/* Navegación */
+.navbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Degradado azul-violeta */
+  color: white; /* Texto claro sobre barra oscura */
+  padding: 1rem 0; /* Separación vertical */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Sombra sutil para elevación */
+  position: sticky; /* Se mantiene visible al hacer scroll */
+  top: 0; /* Pegada al borde superior */
+  z-index: 100; /* Por encima del contenido principal */
+}
+
+.nav-content {
+  max-width: 1200px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centrado horizontal */
+  padding: 0 20px; /* Espaciado lateral */
+  display: flex; /* Layout flexible para título/enlaces */
+  justify-content: space-between; /* Separa extremos: título a la izquierda, links a la derecha */
+  align-items: center; /* Centra verticalmente los elementos */
+}
+
+.nav-title {
+  font-size: 24px; /* Título principal algo grande */
+  font-weight: 700; /* Negrita para jerarquía */
+  margin: 0; /* Sin margen extra */
+}
+
+.nav-links {
+  display: flex; /* Coloca enlaces en línea */
+  gap: 2rem; /* Separación horizontal entre enlaces */
+}
+
+.nav-link {
+  color: white; /* Enlaces visibles sobre fondo oscuro */
+  text-decoration: none; /* Quita subrayado */
+  font-weight: 500; /* Seminegrita para legibilidad */
+  padding: 8px 16px; /* Área clickeable amplia */
+  border-radius: 6px; /* Bordes redondeados */
+  transition: all 0.3s ease; /* Animaciones suaves en hover */
+  position: relative; /* Necesario para el pseudo-elemento indicador */
+}
+
+.nav-link:hover {
+  background-color: rgba(255,255,255,0.1); /* Resalta el fondo al pasar el mouse */
+  transform: translateY(-1px); /* Efecto sutil de elevación */
+}
+
+.nav-link.active {
+  background-color: rgba(255,255,255,0.2); /* Estado activo más notorio */
+  font-weight: 600; /* Refuerza jerarquía visual */
+}
+
+.nav-link.active::after {
+  content: ''; /* Dibuja un marcador bajo el enlace activo */
+  position: absolute; /* Posicionamiento relativo al enlace */
+  bottom: -8px; /* Debajo del enlace */
+  left: 50%; /* Centrado horizontal */
+  transform: translateX(-50%); /* Ajuste fino del centrado */
+  width: 4px; /* Tamaño del punto indicador */
+  height: 4px; /* Tamaño del punto indicador */
+  background-color: white; /* Color del indicador */
+  border-radius: 50%; /* Forma circular */
+}
+
+/* Contenido principal */
+.main-content {
+  flex: 1; /* Ocupa el espacio disponible entre navbar y footer */
+  padding: 0; /* Sin relleno adicional, lo definen las páginas internas */
+  min-height: calc(100vh - 120px); /* Garantiza altura mínima para evitar footers flotantes */
+}
+
+/* Footer */
+.footer {
+  background-color: #343a40; /* Fondo oscuro para contraste */
+  color: white; /* Texto claro sobre fondo oscuro */
+  text-align: center; /* Centra el contenido textual */
+  padding: 20px; /* Espaciado interno cómodo */
+  margin-top: auto; /* Empuja el footer al final del contenedor flex */
+}
+
+.footer p {
+  margin: 0; /* Evita espacios extra verticales */
+  font-size: 14px; /* Tamaño de fuente discreto */
+}
+
+/* Responsive */
+@media (max-width: 768px) { /* Ajustes para pantallas medianas/pequeñas */
+  .nav-content {
+    flex-direction: column; /* Coloca título y enlaces uno debajo del otro */
+    gap: 1rem; /* Espacio entre bloques */
+  }
+  
+  .nav-title {
+    font-size: 20px; /* Reduce tamaño del título para móviles */
+  }
+  
+  .nav-links {
+    gap: 1rem; /* Menos separación entre enlaces */
+  }
+  
+  .nav-link {
+    padding: 6px 12px; /* Enlaces más compactos */
+    font-size: 14px; /* Fuente más pequeña para caber mejor */
+  }
+  
+}

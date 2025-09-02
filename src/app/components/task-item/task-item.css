@@ -1,0 +1,93 @@
+/* Archivo: task-item.css — Estilos del componente TaskItemComponent.
+   Objetivo: tarjeta compacta con acciones (toggle/delete) y estado 'completed'.
+   Convenciones: clases utilitarias .btn-*, transiciones suaves; accesible y responsivo. */
+.task-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.task-item:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.task-item.completed {
+  opacity: 0.7;
+  background-color: #f8f9fa;
+}
+
+.task-content {
+  flex: 1;
+}
+
+.task-content h3 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.task-item.completed .task-content h3 {
+  text-decoration: line-through;
+  color: #666;
+}
+
+.task-content p {
+  margin: 0 0 8px 0;
+  color: #666;
+  line-height: 1.4;
+}
+
+.task-content small {
+  color: #999;
+  font-size: 12px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.btn-toggle {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-toggle.completed {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-toggle:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+

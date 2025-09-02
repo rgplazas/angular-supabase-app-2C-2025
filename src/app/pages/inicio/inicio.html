@@ -1,0 +1,62 @@
+<!-- Archivo: inicio.html — Página de bienvenida. Muestra posts de API externa.
+     Migrado a Angular 20 control flow (@if/@for) y rastreo por id. -->
+<div class="inicio-container"> <!-- Contenedor principal de la página de inicio -->
+  <!-- Sección de encabezado/hero con título y navegación -->
+  <div class="hero-section"> <!-- Sección hero: presentación principal -->
+    <h1>Bienvenido a la App Angular + Supabase</h1>
+    <p>Esta aplicación demuestra el uso de Angular con Supabase y APIs externas</p>
+    <div class="nav-buttons">
+      <!-- routerLink: navega a la ruta '/dashboard' sin recargar la página -->
+      <a routerLink="/dashboard" class="btn btn-primary">
+        Ir al Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- Sección de listado de características clave del proyecto -->
+  <div class="features-section"> <!-- Sección de resumen de características -->
+    <h2>Características implementadas</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <h3>🅰️ Angular Básico</h3>
+        <p>Componentes, @Input/@Output, bindeo y ruteo</p>
+      </div>
+      <div class="feature-card">
+        <h3>🗄️ Supabase</h3>
+        <p>ABM completo: crear, listar y eliminar tareas</p>
+      </div>
+      <div class="feature-card">
+        <h3>🌐 API Externa</h3>
+        <p>Consumo de JSONPlaceholder para mostrar posts</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección dedicada a datos de la API externa -->
+  <div class="api-section">
+    <h2>Posts desde JSONPlaceholder API</h2>
+    
+    <!-- @if: control flow nativo de Angular para mostrar estado de carga -->
+    @if (loading) {
+      <div class="loading">
+        Cargando posts...
+      </div>
+    }
+    
+    <!-- @if: muestra el mensaje de error cuando existe -->
+    @if (error) {
+      <div class="error">{{ error }}</div>
+    }
+    
+    <!-- @if compuesto: renderiza la lista sólo cuando no hay carga ni error -->
+    @if (!loading && !error) {
+      <div class="posts-container">
+        <!-- @for: itera los posts; track por id para eficiencia del DOM -->
+        @for (post of posts; track post.id) {
+          <!-- Componente hijo: tarjeta de post individual -->
+          <app-post-card [post]="post"></app-post-card>
+        }
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<!-- Archivo: task-item.html — Ítem de tarea individual (hijo de Dashboard).
+     Migrado a Angular 20 control flow (@if) y signals para inputs (task()). -->
+<div class="task-item" [class.completed]="task().completed">
+  <div class="task-content">
+    <h3>{{ task().title }}</h3>
+    <p>{{ task().description }}</p>
+    @if (task().created_at) {
+      <small>Creado: {{ task().created_at | date:'short' }}</small>
+    }
+  </div>
+  <div class="task-actions">
+    <button 
+      class="btn btn-toggle" 
+      [class.completed]="task().completed"
+      (click)="onToggleComplete()">
+      {{ task().completed ? 'Marcar pendiente' : 'Marcar completada' }}
+    </button>
+    <button class="btn btn-delete" (click)="onDelete()">
+      Eliminar
+    </button>
+  </div>
+</div>
