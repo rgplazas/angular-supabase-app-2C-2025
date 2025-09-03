@@ -1,7 +1,7 @@
 // Archivo: inicio.ts — Página de bienvenida.
 // Muestra posts desde una API externa (ApiService). La plantilla usa Angular 20 control flow (@if/@for).
 // Notas: top 10 posts para rendimiento; manejo de loading/error en UI.
-import { Component, OnInit } from '@angular/core'; // Component: decorador para componentes standalone; OnInit: interfaz que habilita ngOnInit()
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // Component: decorador para componentes standalone; OnInit: interfaz que habilita ngOnInit()
 import { RouterModule } from '@angular/router'; // Habilita directivas de ruteo (routerLink, routerLinkActive, RouterOutlet)
 import { ApiService, Post } from '../../services/api.service'; // ApiService: llamadas a API externa; Post: tipo para tipado estricto
 import { PostCardComponent } from '../../components/post-card/post-card'; // Componente hijo para renderizar una tarjeta de post
@@ -22,7 +22,7 @@ export class InicioComponent implements OnInit { // implements OnInit: permite u
   error = '';
 
   // Inyectamos el servicio que se comunica con la API externa
-  constructor(private apiService: ApiService) {} // DI de Angular: se inyecta ApiService como dependencia
+  constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) {} // DI de Angular: se inyecta ApiService como dependencia
 
   ngOnInit(): void { // Hook de ciclo de vida: se ejecuta una vez al inicializar el componente (tipo void)
     // Hook del ciclo de vida que se ejecuta una vez al iniciar el componente
@@ -38,12 +38,14 @@ export class InicioComponent implements OnInit { // implements OnInit: permite u
         // 3) Si sale bien, guardamos los datos (sólo 10 por rendimiento)
         this.posts = posts.slice(0, 10); // Crea una copia con los primeros 10 elementos
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error al cargar posts:', error);
         // 4) Si algo falla, mostramos un mensaje amigable
         this.error = 'Error al cargar los posts desde la API'; // Mensaje visible en la UI
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

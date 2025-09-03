@@ -2,7 +2,7 @@
 // Propósito: alta, listado, actualización y eliminación de tareas con Supabase.
 // Notas: se usa control flow de Angular 20 (@if/@for) con track por id y validación mínima.
 // Importa el decorador de componente y el hook OnInit
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 // Migración Angular 20: eliminamos CommonModule y FormsModule (template-driven)
 // Usamos Reactive Forms por compatibilidad con signals y mejor tipado/validación
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
   isSubmitting = false;
 
   // Inyección del servicio y del FormBuilder para construir el FormGroup
-  constructor(private supabaseService: SupabaseService, private fb: FormBuilder) {
+  constructor(private supabaseService: SupabaseService, private fb: FormBuilder, private cdr: ChangeDetectorRef) {
     // Definición del formulario reactivo con validaciones
     this.newTaskForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
@@ -72,6 +72,7 @@ export class DashboardComponent implements OnInit {
     } finally {
       // Siempre apagar loading aunque haya error
       this.loading = false;
+      this.cdr.detectChanges();
     }
   }
 

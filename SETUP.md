@@ -82,40 +82,92 @@ Abrir: http://localhost:4200
 2. Copiar y ejecutar el contenido de `database-setup.sql`
 3. ¡Listo! El ABM de tareas ya debería funcionar
 
-## 🏗️ Generar este proyecto desde cero (para enseñar)
+## 🧑‍🏫 Guía didáctica: construir la app desde cero (flow de clase)
 
-Comandos típicos que puedes mostrar en clase para construir una app similar:
+Objetivo: al finalizar, el grupo habrá construido una app Angular 20 standalone con:
+- Página Inicio que consume una API externa (JSONPlaceholder) y usa un componente presentacional `PostCardComponent`.
+- Página Dashboard con ABM de tareas en Supabase, Reactive Forms y un componente hijo `TaskItemComponent` con señales.
+- Control flow moderno `@if/@for` y mejores prácticas de arquitectura.
 
-1) Crear proyecto Angular (opcionalmente con SSR):
+### 0) Preparación (5 min)
+- Explicar arquitectura del proyecto (`src/app/pages/`, `src/app/components/`, `src/app/services/`).
+- Aclarar conceptos: standalone components, control flow `@if/@for`, señales para `@Input`, Reactive Forms.
+
+### 1) Crear proyecto base con SSR (5 min)
 ```bash
 ng new angular-supabase-app --ssr
-```
-
-2) Entrar al proyecto e instalar dependencias extra:
-```bash
 cd angular-supabase-app
 npm install @supabase/supabase-js tslib -D @types/node
 ```
+Checklist: correr `ng serve` y ver http://localhost:4200.
 
-3) Generar páginas (standalone):
+### 2) Ruteo y layout mínimo (10 min)
+- Definir rutas `app.routes.ts`: `/inicio`, `/dashboard`.
+- Navbar simple en la shell para navegar entre páginas.
+
+### 3) Generar páginas standalone (10 min)
 ```bash
 ng g c app/pages/inicio --standalone --flat=false
 ng g c app/pages/dashboard --standalone --flat=false
 ```
+- Explicar `imports: [...]` en `@Component` y cómo exponer directivas/pipes necesarios.
+- En Angular 20, usar control flow `@if/@for` (no `*ngIf/*ngFor`).
 
-4) Generar componentes reutilizables:
+### 4) Componentes presentacionales (15 min)
 ```bash
 ng g c app/components/post-card --standalone --flat=false
 ng g c app/components/task-item --standalone --flat=false
 ```
+- `PostCardComponent`: input con señales `post = input.required<Post>()` y template que lee `post()`.
+- `TaskItemComponent`: input con señales `task = input.required<Task>()`, outputs `deleteTask` y `toggleComplete`.
+- Pipes/directivas: importar solo lo necesario (p.ej. `DatePipe` standalone en `TaskItemComponent`).
 
-5) Generar servicios:
+### 5) Servicios (15 min)
 ```bash
 ng g s app/services/api --flat
 ng g s app/services/supabase --flat
 ```
+- `ApiService`: usa HttpClient para pedir posts a JSONPlaceholder. Mostrar tipado `Post` y manejo básico de errores.
+- `SupabaseService`: inicializa el cliente de Supabase y expone métodos `getTasks`, `addTask`, `deleteTask`, `updateTaskCompleted`.
 
-6) Definir rutas en `src/app/app.routes.ts` y proveer `provideHttpClient()` en `app.config.ts` si es necesario.
+### 6) Configuración de credenciales (5 min)
+- Copiar `supabase.config.example.ts` a `src/supabase.config.ts` y completar `SUPABASE_URL` y `SUPABASE_ANON_KEY`.
+- Confirmar que `src/supabase.config.ts` está en `.gitignore`.
+
+### 7) Base de datos en Supabase (5 min)
+- En SQL Editor, ejecutar el contenido de `database-setup.sql`.
+- Explicar RLS y la política de ejemplo.
+
+### 8) Implementar Inicio (15 min)
+- En `InicioComponent` (`src/app/pages/inicio/inicio.ts`):
+  - Inyectar `ApiService`, cargar posts en `ngOnInit` y manejar estados `loading/error`.
+  - Renderizar lista con `@for (post of posts; track post.id)` y `PostCardComponent`.
+
+### 9) Implementar Dashboard con Reactive Forms (25 min)
+- En `DashboardComponent` (`src/app/pages/dashboard/dashboard.ts`):
+  - Importar `ReactiveFormsModule` y crear `newTaskForm` (controles `title`, `description`, `completed`).
+  - Validaciones con `Validators.required/minLength`.
+  - Cargar tareas con `SupabaseService.getTasks()`.
+  - Crear métodos: `onSubmit`, `onDeleteTask`, `onToggleComplete`, y getters `pendingTasks`/`completedTasks`.
+- En `dashboard.html`:
+  - Sustituir `ngModel` por `[formGroup]` y `formControlName`.
+  - Mostrar errores con `@if (newTaskForm.get('title')?.invalid && ...?.touched)`.
+  - Listar tareas con `@for` y usar `<app-task-item [task]="task" (deleteTask)=... (toggleComplete)=...>`.
+
+### 10) Control flow moderno y señales (10 min)
+- Recalcar lectura de señales en template: `task()` / `post()`.
+- `@if`/`@for` con `track` para rendimiento.
+
+### 11) SSR y DX (5 min)
+- `ng serve` para dev; opcionalmente mostrar `npm run build` y cómo servir SSR producido.
+- Nota de deprecations de Node (p. ej. punycode) y cómo diagnosticarlas/mitigarlas.
+
+### 12) Pruebas rápidas (opcionales) (5 min)
+- Idea: tests de componentes standalone y `fixture.componentRef.setInput` para señales.
+
+### 13) Cierre y verificación (5 min)
+- Revisar checklist de funcionalidades.
+- Preguntas y próximos pasos (estilos, Material, auth, etc.).
 
 ## 🎯 Funcionalidades por Probar
 
