@@ -38,8 +38,8 @@ testem.log
 /typings
 
 # Credenciales locales (no versionar)
-supabase.config.ts
-src/supabase.config.ts
+#supabase.config.ts
+#src/supabase.config.ts
 
 # System files
 .DS_Store
